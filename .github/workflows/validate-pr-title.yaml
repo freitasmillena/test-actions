@@ -38,14 +38,7 @@ jobs:
         regex=$(python3 .github/scripts/pr-issue-info/get_title_types.py)
         echo "Title regex: $regex"
         title="${{ github.event.pull_request.title }}"
-        echo $title | grep -Pq "$regex"
-        echo "Grep exit code: $?"
-        if [ $? -eq 1 ]; then
-          echo "$ERROR_MSG"
-          echo "Adding a comment to the PR..."
-          python3 .github/scripts/pr-issue-info/add_comment.py
-          exit 1
-        fi
+        echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && python3 .github/scripts/pr-issue-info/add_comment.py && exit 1)
   labels-check:
     runs-on: ubuntu-latest
     env:
