@@ -38,8 +38,8 @@ jobs:
         regex=$(python3 .github/scripts/pr-issue-info/get_title_types.py)
         echo "Title regex: $regex"
         title="${{ github.event.pull_request.title }}"
-        echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV && exit 1)
-    - name: Add comment
+        echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
+    - name: Add comment and fail workflow
       if: env.TITLE_CHECK_FAILED == 'true'
       uses: actions/github-script@v6
       with:
@@ -49,9 +49,11 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: `Please, follow the guideline for a pull request title: 
-                  `<type>(<scope>): <title starting with lowercase letter>`
+                  \'<type>(<scope>): <title starting with lowercase letter>\'
                   You can read more about it [here](https://docs.kics.io/latest/CONTRIBUTING/#pull_requests).`
           })
+          process.exit(1)
+
   labels-check:
     runs-on: ubuntu-latest
     env:
