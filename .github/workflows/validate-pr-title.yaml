@@ -7,6 +7,8 @@ on:
 
 jobs:
   title-check:
+  permissions:
+    pull-requests: write
     runs-on: ubuntu-latest
     env:
       ERROR_MSG: "The PR title does not match the required format: <type>(<scope>): <title>"
