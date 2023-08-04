@@ -18,6 +18,7 @@ jobs:
         sparse-checkout: |
           .github/scripts/pr-issue-info/get_title_types.py
           .github/pr-title-types.yaml
+          .github/scripts/pr-issue-info/title-fail.md
     - name: Print PR Title
       run: echo "${{ github.event.pull_request.title }}"
     - name: Set up Python 
@@ -34,20 +35,10 @@ jobs:
         echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
     - name: Add comment and fail workflow
       if: env.TITLE_CHECK_FAILED == 'true'
-      uses: actions/github-script@v6
+      uses: thollander/actions-comment-pull-request@v2
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `Please, follow the guideline for a pull request title: 
-                  \'<type>(<scope>): <title starting with lowercase letter>\'
-                  You can read more about it [here](https://docs.kics.io/latest/CONTRIBUTING/#pull_requests).`
-          })
-          process.exit(1)
-
+        filePath: .github/scripts/pr-issue-info/title-fail.md
+        pr_number: ${{ github.event.pull_request.number }}
   labels-check:
     runs-on: ubuntu-latest
     env:
