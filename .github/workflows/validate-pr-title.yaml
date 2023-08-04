@@ -27,7 +27,7 @@ jobs:
       with:
         python-version: "3.x"
     - name: Install dependencies
-      run: python3 -m pip install --upgrade pip pyyaml
+      run: python3 -m pip install --upgrade pip pyyaml requests
     - name: Check PR Title
       env:
         PR_NUMBER: ${{ github.event.pull_request.number }}
