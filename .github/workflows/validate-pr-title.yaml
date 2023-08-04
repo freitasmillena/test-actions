@@ -42,18 +42,16 @@ jobs:
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
       uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `Please, follow the guideline for a pull request title: 
-
-                    `<type>(<scope>): <title starting with lowercase letter>`
-
-                    You can read more about it [here](https://docs.kics.io/latest/CONTRIBUTING/#pull_requests).`
-            })
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Please, follow the guideline for a pull request title: 
+                  `<type>(<scope>): <title starting with lowercase letter>`
+                  You can read more about it [here](https://docs.kics.io/latest/CONTRIBUTING/#pull_requests).`
+          })
   labels-check:
     runs-on: ubuntu-latest
     env:
