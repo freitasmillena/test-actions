@@ -20,6 +20,7 @@ jobs:
           .github/pr-title-types.yaml
           .github/scripts/pr-issue-info/add_comment.py
           .github/scripts/pr-issue-info/title-fail.md
+    - name: Print PR Title
       run: echo "${{ github.event.pull_request.title }}"
     - name: Set up Python 
       uses: actions/setup-python@v4
