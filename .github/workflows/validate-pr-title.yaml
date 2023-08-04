@@ -39,6 +39,7 @@ jobs:
       with:
         filePath: .github/scripts/pr-issue-info/title-fail.md
         pr_number: ${{ github.event.pull_request.number }}
+        GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   labels-check:
     runs-on: ubuntu-latest
     env:
