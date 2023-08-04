@@ -38,7 +38,22 @@ jobs:
         regex=$(python3 .github/scripts/pr-issue-info/get_title_types.py)
         echo "Title regex: $regex"
         title="${{ github.event.pull_request.title }}"
-        echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && python3 .github/scripts/pr-issue-info/add_comment.py && exit 1)
+        echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV && exit 1)
+    - name: Add comment
+      if: env.PR_TITLE_CHECK_FAILED == 'true'
+      uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Please, follow the guideline for a pull request title: 
+
+                    `<type>(<scope>): <title starting with lowercase letter>`
+
+                    You can read more about it [here](https://docs.kics.io/latest/CONTRIBUTING/#pull_requests).`
+            })
   labels-check:
     runs-on: ubuntu-latest
     env:
