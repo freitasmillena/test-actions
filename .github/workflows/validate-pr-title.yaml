@@ -35,12 +35,14 @@ jobs:
         echo "Title regex: $regex"
         title="${{ github.event.pull_request.title }}"
         echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
-    - name: Add comment and fail workflow
+    - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: .github/scripts/pr-issue-info/title-fail.md
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Fail the workflow
+      if: env.TITLE_CHECK_FAILED == 'true'
+      run: exit 1
   labels-check:
     runs-on: ubuntu-latest
     env:
