@@ -33,7 +33,7 @@ jobs:
         PR_NUMBER: ${{ github.event.pull_request.number }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PATH: ".github/scripts/pr-issue-info/title-fail.md"
+        FILE_PATH: ".github/scripts/pr-issue-info/title-fail.md"
       run: |
         regex=$(python3 .github/scripts/pr-issue-info/get_title_types.py)
         echo "Title regex: $regex"

@@ -22,5 +22,5 @@ if __name__ == "__main__":
     pr_number = os.getenv('PR_NUMBER')
     repo = os.getenv('GITHUB_REPOSITORY')
     token = os.getenv('GITHUB_TOKEN')
-    comment_filepath = os.getenv('PATH')
+    comment_filepath = os.getenv('FILE_PATH')
     add_comment(pr_number, repo, token, comment_filepath)
