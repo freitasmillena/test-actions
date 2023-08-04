@@ -40,7 +40,7 @@ jobs:
         title="${{ github.event.pull_request.title }}"
         echo $title | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV && exit 1)
     - name: Add comment
-      if: env.PR_TITLE_CHECK_FAILED == 'true'
+      if: env.TITLE_CHECK_FAILED == 'true'
       uses: actions/github-script@v6
         with:
           script: |
