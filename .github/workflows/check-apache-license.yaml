@@ -25,6 +25,8 @@ jobs:
       if: env.CHECK_FAILED != 'true'
       uses: thollander/actions-comment-pull-request@v2
       with:
+        message: |
+          Deleting comment...
         comment_tag: apache_license
         mode: delete
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
