@@ -46,6 +46,8 @@ jobs:
       if: env.TITLE_CHECK_FAILED == 'true'
       run: exit 1
   labels-check:
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     env:
       BODY: ${{ github.event.pull_request.body }}
