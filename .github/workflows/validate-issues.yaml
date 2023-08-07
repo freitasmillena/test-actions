@@ -41,7 +41,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Delete comment
       if: steps.find-comment.outputs.comment-id != ''
-      uses: detomarco/delete-comment@v1
+      uses: detomarco/delete-comments@v1.0.4
       with:
         token: ${secrets.GITHUB_TOKEN}
         repository: ${{ github.repository }}
