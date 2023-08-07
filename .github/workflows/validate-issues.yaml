@@ -32,27 +32,24 @@ jobs:
         echo "Title regex: $regex"
         title="${{ github.event.issue.title }}"
         echo "$title" | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
-    - name: Find comment
-      uses: peter-evans/find-comment@v1
-      id: find-comment
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body-includes: Please, follow the guideline for an issue title 
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Add comment if no license
+    - name: Delete comment if title is fixed
+      if: env.TITLE_CHECK_FAILED != 'true'
       uses: thollander/actions-comment-pull-request@v2
       with:
-        filePath: .github/scripts/pr-issue-info/apache-check.md
-        comment_tag: apache_license
+        message: |
+          Deleting comment...
+        comment_tag: title_check
+        mode: delete
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Add comment if title fails
+      if: env.CHECK_FAILED == 'true'
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        filePath: .github/scripts/pr-issue-info/issue-fail.md
+        comment_tag: title_check
+        mode: recreate
         create_if_not_exists: true
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Add comment
-      if: env.TITLE_CHECK_FAILED == 'true'
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body-path: .github/scripts/pr-issue-info/issue-fail.md
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Fail the workflow
       if: env.TITLE_CHECK_FAILED == 'true'
       run: exit 1
