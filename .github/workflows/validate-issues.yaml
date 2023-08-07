@@ -34,6 +34,7 @@ jobs:
         echo "$title" | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
+      run: echo env.TITLE_CHECK_FAILED
     - name: Fail the workflow
       if: env.TITLE_CHECK_FAILED == 'true'
       run: exit 1
