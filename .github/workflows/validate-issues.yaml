@@ -39,13 +39,13 @@ jobs:
         issue-number: ${{ github.event.issue.number }}
         body-includes: Please, follow the guideline for an issue title 
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Delete comment
-      if: steps.find-comment.outputs.comment-id != ''
-      uses: detomarco/delete-comments@v1.0.4
+    - name: Add comment if no license
+      uses: thollander/actions-comment-pull-request@v2
       with:
-        token: ${secrets.GITHUB_TOKEN}
-        repository: ${{ github.repository }}
-        comment-id: steps.find-comment.outputs.comment-id
+        filePath: .github/scripts/pr-issue-info/apache-check.md
+        comment_tag: apache_license
+        create_if_not_exists: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
       uses: peter-evans/create-or-update-comment@v3
