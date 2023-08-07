@@ -32,6 +32,20 @@ jobs:
         echo "Title regex: $regex"
         title="${{ github.event.issue.title }}"
         echo "$title" | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
+    - name: Find comment
+      uses: peter-evans/find-comment@v1
+      id: find-comment
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body-includes: Please, follow the guideline for an issue title 
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Delete comment
+      if: steps.find-comment.outputs.comment-id != ''
+      uses: detomarco/delete-comment@v1
+      with:
+        token: ${secrets.GITHUB_TOKEN}
+        repository: ${{ github.repository }}
+        comment-id: steps.find-comment.outputs.comment-id
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
       uses: peter-evans/create-or-update-comment@v3
