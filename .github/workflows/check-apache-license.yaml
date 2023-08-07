@@ -36,6 +36,7 @@ jobs:
       with:
         filePath: .github/scripts/pr-issue-info/apache-check.md
         comment_tag: apache_license
+        mode: recreate
         create_if_not_exists: true
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Fail the workflow if no license
