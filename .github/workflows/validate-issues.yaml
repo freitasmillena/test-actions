@@ -5,7 +5,7 @@ on:
 jobs:
   title-check:
     permissions:
-        pull-requests: write
+        issues: write
     runs-on: ubuntu-latest
     env:
       BODY: ${{ github.event.issue.body }}
@@ -40,6 +40,8 @@ jobs:
       run: exit 1
   labels-check:
     runs-on: ubuntu-latest
+    permissions:
+        issues: write
     env:
       BODY: ${{ github.event.issue.body }}
       LABELS: ${{ toJson(github.event.issue.labels) }}
