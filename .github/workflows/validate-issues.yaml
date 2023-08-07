@@ -42,7 +42,7 @@ jobs:
         mode: delete
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Add comment if title fails
-      if: env.CHECK_FAILED == 'true'
+      if: env.TITLE_CHECK_FAILED == 'true'
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: .github/scripts/pr-issue-info/issue-fail.md
