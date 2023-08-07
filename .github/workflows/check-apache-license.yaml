@@ -3,10 +3,11 @@ on:
   pull_request_target:
     types: [opened, synchronize, edited, reopened]
     branches: 
-      - master
-      - apache_workflow
+      - main
 jobs:
   check-license:
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     env:
       BODY: ${{ github.event.pull_request.body }}
@@ -25,7 +26,7 @@ jobs:
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: .github/scripts/pr-issue-info/apache-check.md
-        GITHUB_TOKEN: ${{ secrets.KICS_BOT_PAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Fail the workflow if no license
       if: env.CHECK_FAILED == 'true'
       run: exit 1
