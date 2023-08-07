@@ -18,6 +18,12 @@ jobs:
           .github/scripts/pr-issue-info/issue-fail.md
           .github/scripts/pr-issue-info/get_title_types.py
           .github/issue-title-types.yaml
+    - name: Set up Python 
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Install dependencies
+      run: python3 -m pip install --upgrade pip pyyaml
     - name: Check issue title 
       env:
         FILE_PATH: .github/issue-title-types.yaml
@@ -26,7 +32,6 @@ jobs:
         echo "Title regex: $regex"
         title="${{ github.event.pull_request.title }}"
         echo "$title" | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
-   
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
     - name: Fail the workflow
