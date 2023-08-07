@@ -22,7 +22,7 @@ jobs:
       run: |
         echo "$BODY" | grep -iPq "I submit this contribution under the Apache-2.0 license." || echo "CHECK_FAILED=true" >> $GITHUB_ENV
     - name: Delete comment if license is fixed
-      if: env.CHECK_FAILED == 'false'
+      if: env.CHECK_FAILED != 'true'
       uses: thollander/actions-comment-pull-request@v2
       with:
         comment_tag: apache_license
