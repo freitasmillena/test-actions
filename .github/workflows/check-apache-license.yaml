@@ -26,6 +26,8 @@ jobs:
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: .github/scripts/pr-issue-info/apache-check.md
+        comment_tag: apache_license
+        create_if_not_exists: true
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Fail the workflow if no license
       if: env.CHECK_FAILED == 'true'
