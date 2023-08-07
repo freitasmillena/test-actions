@@ -34,7 +34,11 @@ jobs:
         echo "$title" | grep -Pq "$regex" || (echo "$ERROR_MSG" && echo "TITLE_CHECK_FAILED=true" >> $GITHUB_ENV)
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
-      run: echo env.TITLE_CHECK_FAILED
+      uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body-path: .github/scripts/pr-issue-info/issue-fail.md
+          token: ${{ secrets.GITHUB_TOKEN }}
     - name: Fail the workflow
       if: env.TITLE_CHECK_FAILED == 'true'
       run: exit 1
