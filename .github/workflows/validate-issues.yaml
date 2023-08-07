@@ -35,10 +35,10 @@ jobs:
     - name: Add comment
       if: env.TITLE_CHECK_FAILED == 'true'
       uses: peter-evans/create-or-update-comment@v3
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          body-path: .github/scripts/pr-issue-info/issue-fail.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body-path: .github/scripts/pr-issue-info/issue-fail.md
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Fail the workflow
       if: env.TITLE_CHECK_FAILED == 'true'
       run: exit 1
