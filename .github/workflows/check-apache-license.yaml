@@ -20,7 +20,7 @@ jobs:
         sparse-checkout: |
           .github/scripts/pr-issue-info/apache-check.md
     - name: Check for Apache License
-      if: env.USERNAME != 'dependabot[bot]' && env.USERNAME != 'freitasmillena'
+      if: env.USERNAME != 'dependabot[bot]' && env.USERNAME != 'asofsilva'
       run: |
         echo "$BODY" | grep -iPq "^I submit this contribution under the Apache-2.0 license.$" || echo "CHECK_FAILED=true" >> $GITHUB_ENV
     - name: Check for comment tag
