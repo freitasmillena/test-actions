@@ -15,7 +15,7 @@ jobs:
     steps:
     - name: Check for bots
       run: |
-        if [ $USERNAME == "dependabot[bot]" ] || [ $USERNAME == "kicsbot" ]; then
+        if [ $USERNAME == "dependabot[bot]" ] || [ $USERNAME == "freitamillena" ]; then
           echo "This workflow will be skipped for $USERNAME."
           exit 0
         else
