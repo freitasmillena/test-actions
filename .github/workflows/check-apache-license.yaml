@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BODY: ${{ github.event.pull_request.body }}
+      USERNAME: ${{ github.event.pull_request.user.login }}
+    if: env.USERNAME != 'dependabot[bot]' && env.USERNAME != 'kicsbot'
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
